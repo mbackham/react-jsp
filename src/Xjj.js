@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import Test from './test'
 class Xiaojiejie extends Component {
     constructor(props) {
         super(props)
@@ -7,16 +8,18 @@ class Xiaojiejie extends Component {
             list: ["劳务管理", "机械设备"]
         }
     }
-    changeVal = (e) => {
-        console.log(e.target.value)
+    changeVal = () => {
         this.setState({
-            inputVal: e.target.value
+            inputVal: this.input.value
         })
     }
     addList = () => {
         this.setState({
             list: [...this.state.list, this.state.inputVal],
             inputVal: ''
+        }, () => {
+            console.log(this.ul.querySelectorAll('li').length)
+
         })
     }
     deleteVal = (e) => {
@@ -33,17 +36,19 @@ class Xiaojiejie extends Component {
 
                 <div>
                     <label htmlFor='koma'>增加项目：</label>
-
-                    <input id='koma' value={this.state.inputVal} onChange={this.changeVal} /><button onClick={this.addList}>增加选项</button>
+                    <input id='koma' value={this.state.inputVal} onChange={this.changeVal}
+                     ref={(input) => {this.input = input}} />
+                     <button onClick={this.addList}>增加选项</button>
                 </div>
-                <ul>
+                <ul ref={(ul) => { this.ul = ul }}>
                     {
                         this.state.list.map((item, index) => {
                             return (
-                                <li
-                                key={index + item}
-                                onClick={this.deleteVal.bind(this,index)}
-                                dangerouslySetInnerHTML={{__html:item}} ></li>
+                                <Test
+                                    key={index + item}
+                                    content={item}
+                                    index={index}
+                                    deleteMethod={this.deleteVal} />
                             )
                         })
                     }
