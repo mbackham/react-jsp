@@ -10,7 +10,17 @@ class Test extends Component {
     clickChild = () => {
         this.props.deleteMethod(this.props.index)
     }
+    shouldComponentUpdate(nextProps,nextState){
+        console.log(nextProps)
+        console.log(nextState)
+        if(nextProps.content!==this.props.content){
+            return true
+        }else {
+            return false
+        }
+    }
 }
+
 Test.defaultProps = {
     content: PropTypes.string.isRequired,
     index: PropTypes.number,

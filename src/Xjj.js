@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import Test from './test'
+import Boss from './boss'
+import './style.css'
 class Xiaojiejie extends Component {
     constructor(props) {
         super(props)
@@ -53,6 +55,7 @@ class Xiaojiejie extends Component {
                         })
                     }
                 </ul>
+                <Boss></Boss>
             </Fragment>
         )
     }

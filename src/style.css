@@ -1,0 +1,39 @@
+.show{
+    animation:showPart 2s ease-in forwards ;
+
+}
+.hide{
+   
+animation:hidePart 2s ease-in forwards ;
+}
+@keyframes hidePart{
+    0%{
+        opacity: 1;
+        color: yellow;
+
+    }
+    50%{
+        opacity: .5;
+        color: tomato;
+    }
+    100%{
+        opacity:0 ;
+        color: red;
+    }
+  
+}
+@keyframes showPart{
+    0%{
+        opacity: 0;
+        color: yellow;
+
+    }
+    50%{
+        opacity: .5;
+        color: tomato;
+    }
+    100%{
+        opacity:1 ;
+        color: red;
+    }
+}
