@@ -1,63 +1,62 @@
-import React, { Component, Fragment } from 'react'
-import Test from './test'
-import Boss from './boss'
-import './style.css'
-class Xiaojiejie extends Component {
+import React, { Component } from 'react';
+import 'antd/dist/antd.css'
+import { Input, Button, List } from 'antd'
+import store from './store'
+
+
+class TodoList extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            inputVal: '',
-            list: ["劳务管理", "机械设备"]
-        }
-    }
-    changeVal = () => {
-        this.setState({
-            inputVal: this.input.value
-        })
-    }
-    addList = () => {
-        this.setState({
-            list: [...this.state.list, this.state.inputVal],
-            inputVal: ''
-        }, () => {
-            console.log(this.ul.querySelectorAll('li').length)
+        // console.log(store.getState())
+        this.state = store.getState()
+        //订阅
+        this.storeChange=this.storeChange.bind(this)
+        store.subscribe(this.storeChange)
 
-        })
     }
-    deleteVal = (e) => {
-        let list = this.state.list//先声明变量
-        list.splice(e, 1)//再操作变量 （不能直接操作this.state删减）
-        this.setState({
-            list: list
+    changeInputVal = (e) => {
+        // console.log(e.target.value)
+        const action = {
+            type: 'changeInput',
+            value: e.target.value
         }
+        store.dispatch(action)
+    }
+    storeChange(){
+        this.setState(
+            store.getState()
         )
+    }
+    clickBtn=()=>{
+        const action={
+            type:'addItem'
+        }
+        store.dispatch(action)
+    }
+    deleteItem=(index)=>{
+        const action={
+            type:'deleteItem',index
+        }
+        store.dispatch(action)
     }
     render() {
         return (
-            <Fragment>
-
+            <div style={{ margin: '10px' }}>
                 <div>
-                    <label htmlFor='koma'>增加项目：</label>
-                    <input id='koma' value={this.state.inputVal} onChange={this.changeVal}
-                     ref={(input) => {this.input = input}} />
-                     <button onClick={this.addList}>增加选项</button>
+                    <Input placeholder={this.state.inputValue} style={{ width: '250px', marginRight: '10px' }}
+                        onChange={this.changeInputVal} />
+                    <Button onClick={this.clickBtn} type="primary">增加</Button>
                 </div>
-                <ul ref={(ul) => { this.ul = ul }}>
-                    {
-                        this.state.list.map((item, index) => {
-                            return (
-                                <Test
-                                    key={index + item}
-                                    content={item}
-                                    index={index}
-                                    deleteMethod={this.deleteVal} />
-                            )
-                        })
-                    }
-                </ul>
-                <Boss></Boss>
-            </Fragment>
-        )
+                <div style={{ margin: '10px', width: '300px' }}>
+                    <List
+                        bordered
+                        dataSource={[this.state.list]}
+                        renderItem={(item,index) => (<List.Item onClick={this.deleteItem(index)}>{item}</List.Item>)}
+                        renderItem={(item,index)=>(<List.Item onClick={this.deleteItem.bind(this,index)}>{item}</List.Item>)}
+                    />
+                </div>
+            </div>
+        );
     }
 }
-export default Xiaojiejie
+export default TodoList;
