@@ -51,7 +51,7 @@ class TodoList extends Component {
                     <List
                         bordered
                         dataSource={[this.state.list]}
-                        renderItem={(item,index) => (<List.Item onClick={this.deleteItem(index)}>{item}</List.Item>)}
+                        // renderItem={(item,index) => (<List.Item onClick={this.deleteItem(index)}>{item}</List.Item>)}
                         renderItem={(item,index)=>(<List.Item onClick={this.deleteItem.bind(this,index)}>{item}</List.Item>)}
                     />
                 </div>
